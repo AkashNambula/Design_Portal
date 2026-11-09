@@ -1,0 +1,170 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-ivory: #F8F3EF;
+  --color-dusty-rose: #E8D5D0;
+  --color-muted-rose: #A66C70;
+  --color-wine: #542D38;
+  --color-champagne: #C7A879;
+  --color-charcoal: #292326;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #542D38;
+  color: #F8F3EF;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #542D38;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C7A879;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #E8D5D0;
+}
+
+/* Smooth line drawing animation keyframes */
+@keyframes drawPath {
+  0% {
+    stroke-dashoffset: 1000;
+    opacity: 0.2;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+.animate-draw {
+  stroke-dasharray: 1000;
+  animation: drawPath 3.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Subtle gentle floating animation for diamonds */
+@keyframes subtleFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(0.5deg);
+  }
+}
+
+.animate-subtle-float {
+  animation: subtleFloat 6s ease-in-out infinite;
+}
+
+@keyframes subtleFloatReverse {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(5px) rotate(-0.5deg);
+  }
+}
+
+.animate-subtle-float-reverse {
+  animation: subtleFloatReverse 7s ease-in-out infinite;
+}
+
+/* Gold shimmer border effect */
+@keyframes champagneShimmer {
+  0% {
+    opacity: 0.65;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.65;
+  }
+}
+
+.animate-shimmer {
+  animation: champagneShimmer 4s ease-in-out infinite;
+}
+
+/* Realistic Candle Flame Flicker */
+@keyframes flameFlicker {
+  0%, 100% {
+    transform: scale(1) translate(0, 0) rotate(0deg);
+    opacity: 0.95;
+    filter: drop-shadow(0 0 8px rgba(199, 168, 121, 0.8));
+  }
+  20% {
+    transform: scale(1.04, 0.96) translate(-0.5px, -1px) rotate(-1deg);
+    opacity: 1;
+    filter: drop-shadow(0 0 11px rgba(199, 168, 121, 0.95));
+  }
+  40% {
+    transform: scale(0.97, 1.03) translate(0.5px, 0.5px) rotate(1.2deg);
+    opacity: 0.92;
+    filter: drop-shadow(0 0 7px rgba(199, 168, 121, 0.75));
+  }
+  60% {
+    transform: scale(1.02, 0.98) translate(-1px, 0px) rotate(-0.8deg);
+    opacity: 0.98;
+    filter: drop-shadow(0 0 10px rgba(199, 168, 121, 0.9));
+  }
+  80% {
+    transform: scale(0.98, 1.02) translate(0.8px, -0.5px) rotate(0.6deg);
+    opacity: 0.94;
+    filter: drop-shadow(0 0 9px rgba(199, 168, 121, 0.85));
+  }
+}
+
+.animate-flame {
+  transform-origin: 270px 116px;
+  animation: flameFlicker 1.8s ease-in-out infinite;
+}
+
+/* Candle Smoke Dissipation */
+@keyframes smokeDissipate {
+  0% {
+    transform: translateY(0) scale(0.8) rotate(0deg);
+    opacity: 0.75;
+  }
+  50% {
+    transform: translateY(-24px) scale(1.2) rotate(6deg);
+    opacity: 0.45;
+  }
+  100% {
+    transform: translateY(-52px) scale(1.6) rotate(-10deg);
+    opacity: 0;
+  }
+}
+
+.animate-smoke-wisp {
+  animation: smokeDissipate 2.4s ease-out forwards;
+}
+
+/* Respect Accessibility Prefers-Reduced-Motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-flame,
+  .animate-smoke-wisp,
+  .animate-subtle-float,
+  .animate-subtle-float-reverse,
+  .animate-shimmer {
+    animation: none !important;
+  }
+}
+
+
