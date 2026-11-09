@@ -1,128 +1,130 @@
 import React, { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { quizQuestions } from '../../data/quizData';
+import { harshiiQuizQuestions, harshiiQuizConfig } from '../../data/harshiiQuizData';
 import QuizIntro from './QuizIntro';
 import QuizQuestion from './QuizQuestion';
+import QuizFeedback from './QuizFeedback';
 import QuizResults from './QuizResults';
 
-export default function QuizPage({ onNavigateToAbout }) {
-  const [, setSearchParams] = useSearchParams();
-
+export default function QuizPage() {
   // State: 'intro' | 'active' | 'results'
   const [step, setStep] = useState('intro');
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedAnswers, setSelectedAnswers] = useState({});
-  const [calculatedScore, setCalculatedScore] = useState(0);
-  const [isKeyConfigured, setIsKeyConfigured] = useState(false);
-
-  // Check if answers are configured in quizData
-  const checkIsConfigured = () => {
-    return quizQuestions.some((q) => q.correctAnswer !== null && q.correctAnswer !== undefined);
-  };
+  const [score, setScore] = useState(0);
+  const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
+  const [feedback, setFeedback] = useState(null);
+  const [isLocked, setIsLocked] = useState(false);
 
   // Start the Quiz
   const handleStart = () => {
+    setScore(0);
+    setCurrentQuestionIndex(0);
+    setSelectedAnswerIndex(null);
+    setFeedback(null);
+    setIsLocked(false);
     setStep('active');
-    setCurrentQuestionIndex(0);
   };
 
-  // Select an option for the current question
+  // Option selection with immediate validation
   const handleSelectAnswer = (optionIndex) => {
-    const currentQ = quizQuestions[currentQuestionIndex];
-    setSelectedAnswers((prev) => ({
-      ...prev,
-      [currentQ.id]: optionIndex,
-    }));
-  };
+    if (isLocked) return;
 
-  // Previous Question
-  const handlePrev = () => {
-    if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex((prev) => prev - 1);
-    }
-  };
+    setIsLocked(true);
+    setSelectedAnswerIndex(optionIndex);
 
-  // Next Question
-  const handleNext = () => {
-    if (currentQuestionIndex < quizQuestions.length - 1) {
-      setCurrentQuestionIndex((prev) => prev + 1);
-    }
-  };
+    const currentQuestion = harshiiQuizQuestions[currentQuestionIndex];
+    const isCorrect = optionIndex === currentQuestion.correctAnswer;
 
-  // Submit all answers
-  const handleSubmit = () => {
-    const configured = checkIsConfigured();
-    setIsKeyConfigured(configured);
-
-    if (configured) {
-      let finalScore = 0;
-      quizQuestions.forEach((q) => {
-        if (selectedAnswers[q.id] === q.correctAnswer) {
-          finalScore += 1;
-        }
+    if (isCorrect) {
+      // 1. Correct Answer Flow
+      setScore((prev) => prev + 1);
+      setFeedback({
+        type: 'correct',
+        message: 'Correct Answer!',
+        subMessage: 'Yay! You know Harshii so well!',
       });
-      setCalculatedScore(finalScore);
-    } else {
-      // When answers are not yet set by host, calculate sample 5 for verification
-      setCalculatedScore(5);
-    }
 
-    setStep('results');
+      // After short delay, automatically advance to next question or final results
+      setTimeout(() => {
+        setFeedback(null);
+        setSelectedAnswerIndex(null);
+        setIsLocked(false);
+
+        if (currentQuestionIndex + 1 < harshiiQuizQuestions.length) {
+          setCurrentQuestionIndex((prev) => prev + 1);
+        } else {
+          setStep('results');
+        }
+      }, 1600);
+    } else {
+      // 2. Wrong Answer Flow
+      setFeedback({
+        type: 'wrong',
+        message: "Oops! That's not right!",
+        subMessage: 'Think twice and try again!',
+      });
+      // Do not advance question. Score does not increase.
+      // Unlock after dismissal handled via handleDismissFeedback.
+    }
   };
 
-  // Restart Quiz
-  const handleRestart = () => {
-    setSelectedAnswers({});
+  // Dismiss feedback for wrong answer retry
+  const handleDismissFeedback = () => {
+    setFeedback(null);
+    setSelectedAnswerIndex(null);
+    setIsLocked(false);
+  };
+
+  // Replay Quiz
+  const handleReplay = () => {
+    setScore(0);
     setCurrentQuestionIndex(0);
-    setStep('intro');
+    setSelectedAnswerIndex(null);
+    setFeedback(null);
+    setIsLocked(false);
+    setStep('active');
   };
 
-  // Back to About Section
-  const handleBackToAbout = () => {
-    if (onNavigateToAbout) {
-      onNavigateToAbout();
-    } else {
-      setSearchParams({ tab: 'about' });
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  };
-
-  const currentQuestion = quizQuestions[currentQuestionIndex] || quizQuestions[0];
-  const isFirst = currentQuestionIndex === 0;
-  const isLast = currentQuestionIndex === quizQuestions.length - 1;
+  const currentQuestion = harshiiQuizQuestions[currentQuestionIndex] || harshiiQuizQuestions[0];
 
   return (
-    <section className="w-full py-12 sm:py-16 md:py-20 px-4 sm:px-6 md:px-10 relative bg-ivory text-charcoal min-h-[75vh] flex items-center justify-center">
+    <section className="w-full py-10 sm:py-16 md:py-20 px-4 sm:px-6 md:px-10 relative bg-ivory text-charcoal min-h-[75vh] flex items-center justify-center select-none">
+      {/* 1. QUIZ INTRO */}
       {step === 'intro' && (
         <QuizIntro onStart={handleStart} />
       )}
 
+      {/* 2. ACTIVE QUIZ QUESTIONS */}
       {step === 'active' && (
-        <QuizQuestion
-          question={currentQuestion}
-          currentIndex={currentQuestionIndex}
-          totalQuestions={quizQuestions.length}
-          selectedAnswerIndex={selectedAnswers[currentQuestion.id]}
-          onSelectAnswer={handleSelectAnswer}
-          onPrev={handlePrev}
-          onNext={handleNext}
-          onSubmit={handleSubmit}
-          isFirst={isFirst}
-          isLast={isLast}
-        />
+        <>
+          <QuizQuestion
+            question={currentQuestion}
+            currentIndex={currentQuestionIndex}
+            totalQuestions={harshiiQuizQuestions.length}
+            score={score}
+            selectedAnswerIndex={selectedAnswerIndex}
+            isLocked={isLocked}
+            onSelectAnswer={handleSelectAnswer}
+          />
+
+          {/* Feedback Popup for Correct / Wrong Answer */}
+          <QuizFeedback
+            feedback={feedback}
+            onDismiss={handleDismissFeedback}
+          />
+        </>
       )}
 
+      {/* 3. FINAL RESULTS */}
       {step === 'results' && (
         <QuizResults
-          score={calculatedScore}
-          totalQuestions={quizQuestions.length}
-          selectedAnswers={selectedAnswers}
-          isConfigured={isKeyConfigured}
-          onRestart={handleRestart}
-          onBackToAbout={handleBackToAbout}
+          score={score}
+          totalQuestions={harshiiQuizQuestions.length}
+          onReplay={handleReplay}
         />
       )}
     </section>
   );
 }
 
+// Named alias export for compatibility
+export { QuizPage as HarshiiQuiz };

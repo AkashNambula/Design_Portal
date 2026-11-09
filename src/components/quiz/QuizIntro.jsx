@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Sparkles, HelpCircle, Award } from 'lucide-react';
-import { quizConfig } from '../../data/quizData';
+import { ArrowRight, Sparkles } from 'lucide-react';
+import { harshiiQuizConfig } from '../../data/harshiiQuizData';
 
 export default function QuizIntro({ onStart }) {
   return (
@@ -14,7 +14,7 @@ export default function QuizIntro({ onStart }) {
         className="mb-2"
       >
         <span className="font-cinzel text-xs tracking-[0.28em] text-muted-rose uppercase font-semibold">
-          {quizConfig.sectionLabel}
+          {harshiiQuizConfig.sectionLabel}
         </span>
       </motion.div>
 
@@ -39,7 +39,7 @@ export default function QuizIntro({ onStart }) {
         transition={{ duration: 0.7, delay: 0.15 }}
         className="font-cormorant text-4xl sm:text-5xl md:text-6xl text-wine font-normal tracking-tight mb-3"
       >
-        {quizConfig.mainHeading}
+        {harshiiQuizConfig.mainHeading}
       </motion.h1>
 
       {/* Subtitle: Charcoal */}
@@ -49,7 +49,7 @@ export default function QuizIntro({ onStart }) {
         transition={{ duration: 0.7, delay: 0.2 }}
         className="font-cormorant italic text-lg sm:text-xl text-charcoal/80 max-w-xl mx-auto mb-8 sm:mb-10 leading-relaxed"
       >
-        {quizConfig.subtitle}
+        {harshiiQuizConfig.subtitle}
       </motion.p>
 
       {/* Beautiful Introductory Card: Dusty Rose (#E8D5D0) */}
@@ -70,14 +70,14 @@ export default function QuizIntro({ onStart }) {
           <Sparkles className="w-6 h-6 text-wine stroke-[1.6]" />
         </div>
 
-        {/* Card Main Highlight Text: Wine */}
+        {/* Additional Text / Card Headline */}
         <p className="font-cormorant text-2xl sm:text-3xl text-wine font-medium max-w-md mx-auto leading-snug mb-3">
-          {quizConfig.introCardText}
+          {harshiiQuizConfig.additionalText}
         </p>
 
         {/* Supporting Charcoal Description */}
         <p className="font-montserrat text-xs sm:text-sm text-charcoal/85 max-w-lg mx-auto leading-relaxed">
-          Test your memory of Harshii’s unique quirks, beloved favorites, and the little details that make her so unforgettable.
+          Test how well you remember Harshii's favourite tastes, places, loved ones, and what brings the brightest smile to her face.
         </p>
 
         {/* Three Micro Feature Badges in Champagne & Ivory */}
@@ -88,30 +88,26 @@ export default function QuizIntro({ onStart }) {
           </div>
           <div className="flex flex-col items-center border-y sm:border-y-0 sm:border-x border-champagne/25 py-2 sm:py-0">
             <span className="font-cinzel text-xs tracking-wider text-muted-rose font-bold">04</span>
-            <span className="font-montserrat text-[11px] text-charcoal/80">Options per Question</span>
+            <span className="font-montserrat text-[11px] text-charcoal/80">Choices Each</span>
           </div>
           <div className="flex flex-col items-center">
             <span className="font-cinzel text-xs tracking-wider text-muted-rose font-bold">100%</span>
-            <span className="font-montserrat text-[11px] text-charcoal/80">Dedicated to Harshii</span>
+            <span className="font-montserrat text-[11px] text-charcoal/80">All About Harshii</span>
           </div>
         </div>
       </motion.div>
 
-      {/* Primary Button: START THE QUIZ (Wine background, Champagne border, SVG arrow) */}
+      {/* Primary Button: START QUIZ */}
       <motion.button
         type="button"
         onClick={onStart}
         whileHover={{ scale: 1.04, y: -2 }}
         whileTap={{ scale: 0.97 }}
-        transition={{ duration: 0.2 }}
-        className="group relative px-9 sm:px-11 py-4 rounded-xl bg-wine text-ivory border-2 border-champagne shadow-[0_10px_25px_rgba(84,45,56,0.22)] hover:bg-[#43232c] hover:shadow-[0_14px_35px_rgba(84,45,56,0.32)] transition-all duration-300"
+        className="inline-flex items-center gap-3 px-8 sm:px-10 py-3.5 sm:py-4 rounded-full bg-wine text-ivory border border-champagne shadow-[0_6px_20px_rgba(84,45,56,0.25)] hover:bg-[#43232c] hover:shadow-[0_10px_28px_rgba(84,45,56,0.35)] transition-all duration-300 font-cinzel text-xs tracking-[0.24em] uppercase font-semibold cursor-pointer group"
       >
-        <span className="font-cinzel text-xs sm:text-sm tracking-[0.24em] font-semibold uppercase flex items-center justify-center gap-3">
-          <span>{quizConfig.startButtonText}</span>
-          <ArrowRight className="w-4 h-4 text-champagne group-hover:translate-x-1 transition-transform duration-300" />
-        </span>
+        <span>{harshiiQuizConfig.startButtonText}</span>
+        <ArrowRight className="w-4 h-4 text-champagne group-hover:translate-x-1 transition-transform" />
       </motion.button>
     </div>
   );
 }
-
