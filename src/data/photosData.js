@@ -5,17 +5,17 @@
  * Each photo specifies its tailored aspect ratio matching its natural framing.
  */
 
-// 01. ABOUT MODULE: Harshii's solo editorial portrait (Tall Portrait 3:4 / 9:16)
+// 01. ABOUT MODULE: Harshii's solo editorial portrait
 export const aboutPhotos = [
   {
     id: 'about-01',
-    imagePath: '/images/about-harshii.jpg',
+    imagePath: '/images/about-harshii-smile.jpg',
     title: 'Harshii',
     date: '18 November',
     caption: 'A soul adorned with grace, an infectious smile, and a warmth that brightens every ordinary day.',
-    altText: 'Portrait of Harshii smiling in black traditional dress',
-    aspectRatio: 'aspect-[3/4]',
-    objectPosition: 'object-top',
+    altText: 'Portrait of Harshii smiling warmly in green dress',
+    aspectRatio: 'aspect-[4/3]',
+    objectPosition: 'object-center',
   },
 ];
 

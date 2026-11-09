@@ -365,5 +365,23 @@ export const memoriesList = [
     tapeStyle: 'top-right',
     pin: false,
   },
+
+  // 21. HARSHII: Gentle Smile & Serene Charm (Horizontal Landscape)
+  {
+    id: 'mem-21',
+    memoryNumber: '21',
+    imagePath: '/images/about-harshii-smile.jpg',
+    category: 'Harshii',
+    date: 'Special Moment',
+    title: 'Warmth & Effortless Grace',
+    caption: 'A sweet, peaceful smile that makes every ordinary day feel magical.',
+    altText: 'Harshii smiling warmly in green floral attire seated comfortably in armchair',
+    rotation: '1.5deg',
+    size: 'wide',
+    aspectRatio: 'aspect-[16/9]',
+    aspectRatioStyle: '1024 / 590',
+    tapeStyle: 'top-center',
+    pin: true,
+  },
 ];
 
